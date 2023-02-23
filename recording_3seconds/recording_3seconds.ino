@@ -10,8 +10,13 @@ AudioConnection           patchCord1(adc, 0, queue, 0);
 AudioConnection           patchCord2(queue, 0, i2s, 0);
 AudioConnection           patchCord3(queue, 0, i2s, 1);
 
+// Use these with the Teensy Audio Shield
+#define SDCARD_CS_PIN    10
+#define SDCARD_MOSI_PIN  7
+#define SDCARD_SCK_PIN   14
+
 // SD card objects
-const int chipSelect = BUILTIN_SDCARD;
+//const int chipSelect = BUILTIN_SDCARD;
 File audioFile;
 
 void setup() {
@@ -24,13 +29,20 @@ void setup() {
   i2s.begin();
 
   // Initialize SD card
-  SD.begin(chipSelect);
-
+  //SD.begin(chipSelect);
+  SPI.setMOSI(SDCARD_MOSI_PIN);
+  SPI.setSCK(SDCARD_SCK_PIN);
+  if (!(SD.begin(SDCARD_CS_PIN))) {
+    while (1) {
+      Serial.println("Unable to access the SD card");
+      delay(500);
+    }
+  }
   // Delete the existing audio file
-  SD.remove("recording.wav");
+  SD.remove("audio1.wav");
 
   // Create a new audio file
-  audioFile = SD.open("recording.wav", FILE_WRITE);
+  audioFile = SD.open("audio1.wav", FILE_WRITE);
 
   // Loop infinitely record audio with 3 seconds duration
   loopRecordAudio(3);
@@ -43,7 +55,7 @@ void loop() {
     audioFile.write(queue.readBuffer(), queue.available() * sizeof(int16_t));
 
     // Wait for a short time to avoid overwhelming the SD card
-    delay(10);
+    delay(500);
   }
 }
 
@@ -75,9 +87,9 @@ void loopRecordAudio(int durationSeconds) {
     recordAudioForDuration(durationSeconds);
 
     // Delete the existing audio file
-    SD.remove("recording.wav");
+    SD.remove("audio1.wav");
 
     // Create a new audio file
-    audioFile = SD.open("recording.wav", FILE_WRITE);
+    audioFile = SD.open("audio1.wav", FILE_WRITE);
   }
 }
