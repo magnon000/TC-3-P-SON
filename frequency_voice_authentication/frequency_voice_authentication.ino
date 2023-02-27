@@ -40,10 +40,10 @@ void loop() {
     //Serial.println(frequency);
     
     if (str.length()<3){
-       if (frequency>100 && frequency<=120){
+       if (frequency>100 && frequency<125){
         str+="b";
         }
-       else if (frequency>=120 && frequency<145){
+       else if (frequency>=125 && frequency<145){
         str+="c";
         }
        else{
@@ -52,10 +52,10 @@ void loop() {
     }
     else{
       str.erase(0,1);
-       if (frequency>100 && frequency<=120){
+       if (frequency>100 && frequency<125){
         str+="b";
         }
-        else if (frequency>=120 && frequency<145){
+        else if (frequency>=125 && frequency<145){
         str+="c";
         }
        else{
@@ -63,7 +63,7 @@ void loop() {
         }
      }
      if (str=="ccb"){
-      Serial.println("Detected");
+      Serial.println("Hello");
       detected=true;
       } 
      else{
