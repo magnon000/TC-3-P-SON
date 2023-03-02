@@ -11,12 +11,17 @@
 #define AUDIO_IN_PCM_BUFFER_SIZE (PV_AUDIO_REC_RECORD_BUFFER_SIZE)
 
 static int16_t record_pcm_buffer[AUDIO_IN_PCM_BUFFER_SIZE];
-static int16_t ping_pong_buffer[2][PV_AUDIO_REC_RECORD_BUFFER_SIZE];
+// static int16_t ping_pong_buffer[2][PV_AUDIO_REC_RECORD_BUFFER_SIZE];
 
 static int32_t last_read_index = -1;
 static int32_t read_index = 1;
 static int32_t write_index = 0;
 static int32_t buffer_index = 0;
+
+static int16_t buffer[PV_AUDIO_REC_RECORD_BUFFER_SIZE];
+
+static AudioRecordQueue queue1;
+// static AudioInputAnalog aia1;
 
 struct {
   uint32_t channel_number;
@@ -33,8 +38,7 @@ pv_status_t pv_audio_rec_init(void) {
     pv_audio_rec.record_buffer_size = PV_AUDIO_REC_RECORD_BUFFER_SIZE;
     pv_audio_rec.record_pcm_buffer = record_pcm_buffer;
 
-    AudioRecordQueue *queue = AudioRecordQueue::readBuffer();
-    queue->begin(PV_AUDIO_REC_CHANNEL_NUMBER, PV_AUDIO_REC_AUDIO_FREQUENCY, pv_audio_callback);
+    queue1.begin();
 
     pv_audio_rec.is_recording = true;
 
@@ -43,25 +47,19 @@ pv_status_t pv_audio_rec_init(void) {
 
 
 const int16_t *pv_audio_rec_get_new_buffer(void) {
-    //AudioInputI2S *i2s = AudioInputI2S::readBuffer(); // todo: declare i2s
-    AudioRecordQueue *queue = AudioRecordQueue::readBuffer();
-
     if (!pv_audio_rec.is_recording) {
         return NULL;
     }
 
-    if (!queue->available()) {
+    if (!queue1.available()) {
         return NULL;
     }
 
-    int16_t *buffer = queue->readBuffer();
-
     for (int i = 0; i < PV_AUDIO_REC_RECORD_BUFFER_SIZE; i++) {
-        buffer[i] = i2s->readBuffer(); // todo: declare i2s
+        buffer[i]=*(queue1.readBuffer());
     }
 
-    queue->freeBuffer();
+    queue1.freeBuffer();
 
     return buffer;
 }
-

@@ -1,17 +1,22 @@
-#include "src/picovoice.h"
-#include "src/pv_porcupine.h"
+/*
+"src/picovoice.h"
+"src/pv_porcupine.h"
+"model/pv_porcupine_params.h"
+"src/pv_audio.h"
+*/
+
+#include <Teensy_Picovoice.h>
 #include "model/pv_porcupine_params.h"
-#include "src/pv_audio.h"
 
 // user defined
 #define MEMORY_BUFFER_SIZE (100 * 1024)
-static const char* ACCESS_KEY = "";
+static const char* ACCESS_KEY = "QrBXG2nBjN20dUNdRqzTgQJ4qMEdLHnINERXgLdV9BBcE/+vLcNq7Q==";
 
 static uint8_t memory_buffer[MEMORY_BUFFER_SIZE] __attribute__((aligned(16)));
 
 static pv_porcupine_t *handle = NULL;
 
-// KEYWORD_ARRAY_LENGTH & KEYWORD_ARRAY in Porcupine .h file
+// KEYWORD_ARRAY_LENGTH & KEYWORD_ARRAY in Porcupine params.h file
 static const int32_t KEYWORD_MODEL_SIZES = KEYWORD_ARRAY_LENGTH;
 static const void *KEYWORD_MODELS = KEYWORD_ARRAY;
 
