@@ -1,5 +1,4 @@
 # SON: 3TC Audio Project
-## _The Last Markdown Editor, Ever_
 
 During this project, we programmed an embedded system in Teensy 4.0 for 
 real-time audio signal processing applications. We developed the voice 
