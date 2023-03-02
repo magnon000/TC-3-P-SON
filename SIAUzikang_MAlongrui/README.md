@@ -7,6 +7,7 @@ for different languages and dialects, rapid real-time processing and high
 accuracy to assure reliable and efficient functioning.
 
 **\*In fact, we tried to train production-ready models using Picovoice’s wake word engine, Porcupine and apply it to Teensy 4.0, but we failed to.**
+
 If you are interesting with the wake word engine we have been discovering, please do not hesitate to click on the "Teensy_wake_word_Porcupine(failed)" directory
 
 The source code of this project should be found in the **"wake_word"** directory
