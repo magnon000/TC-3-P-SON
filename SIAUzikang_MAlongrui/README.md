@@ -13,13 +13,14 @@ If you are interesting with the wake word engine we have been discovering, pleas
 The source code of this project should be found in the **"wake_word"** directory
 ## Features
 - When the wake word - "Hallo" is detected, "Hey" is replied to through 
-the headset
+the headset, show `humidity` and `temperature` on LCD
 - The program waits for the commands (Switch on/off and change)
-- When "Switch on" is detected, the program will switch on the RGB LED
+- When "Switch on" is detected, the program will switch on the RGB LED, and show `Light ON` on LCD
 - To call another command, wake word - "Hallo" should be spoken
 - We then can call "change" to change the colours of RGB LED
 - RGB LED will be switched off when "Switch off" is detected after the 
-wake word 
+wake word, and show `Light OFF` on LCD
+
 
 **The frequency of a spoken word can be influenced by various factors, 
 including the speaker's age, gender, accent and emotion. Thus, the program 
@@ -103,8 +104,14 @@ digitalWrite(ledPin, ledState);
 ```
 **ledPin** : Digital Pins connected to Teensy 4.0
 
+## I2C LCD1602 (LCD)
+Dependence: 
+* LiquidCrystal_I2C (Arduino Library Manager)
+## DHT11 (humidity and temperature)
+Dependence: 
+* [DHT-sensor-library](https://github.com/adafruit/DHT-sensor-library)
 
-
+* [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
 
 
 
